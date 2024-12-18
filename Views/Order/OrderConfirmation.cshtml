@@ -1,0 +1,52 @@
+﻿@model CommerceElectronique.Models.Order
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<h2>Order Confirmation</h2>
+
+<div class="order-summary">
+    <p><strong>Order Number:</strong> @Model.OrderNumber</p>
+    <p><strong>Order Date:</strong> @Model.OrderDate.ToString("MMMM dd, yyyy")</p>
+    <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
+
+    <h3>Products Ordered:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.CartItems)
+            {
+                <tr>
+                    <td>@cartItem.Product.Name</td>
+                    <td>@cartItem.Quantity</td>
+                    <td>@cartItem.Product.Price.ToString("C")</td>
+                    <td>@(cartItem.Quantity * cartItem.Product.Price).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total Amount: @ViewBag.TotalAmount.ToString("C")</h3>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

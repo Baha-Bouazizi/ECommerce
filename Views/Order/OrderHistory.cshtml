@@ -1,0 +1,97 @@
+﻿<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+@model IEnumerable<dynamic>
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Historique des Commandes</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted">Aucune commande n'a été passée.</p>
+    }
+    else
+    {
+        @foreach (var order in Model)
+        {
+            <div class="order-summary mb-4 p-4 shadow-sm bg-white rounded">
+                <div class="order-header d-flex justify-content-between align-items-center">
+                    <h4 class="text-primary">Commande #: @order.OrderNumber</h4>
+                    <span class="badge badge-info">@order.Status</span>
+                </div>
+                <hr class="my-3">
+                <p><strong>Date :</strong> @order.OrderDate.ToString("dd/MM/yyyy")</p>
+                <p><strong>Adresse :</strong> @order.ShippingAddress</p>
+                <p class="text-right"><strong>Total :</strong> @order.TotalAmount.ToString("C")</p>
+            </div>
+        }
+    }
+</div>
+
+<!-- Styles personnalisés -->
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .container {
+        max-width: 800px;
+    }
+
+    .order-summary {
+        border: 1px solid #ddd;
+        padding: 1.5rem;
+        border-radius: 8px;
+        background: #fff;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .order-summary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .order-header {
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .badge-info {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 12px;
+    }
+
+    .badge-info:hover {
+        background-color: #0056b3;
+    }
+
+    h4 {
+        font-weight: 600;
+        margin: 0;
+    }
+
+    p {
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+    }
+
+    hr {
+        border-top: 1px solid #ddd;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-muted {
+        font-style: italic;
+        color: #6c757d;
+    }
+</style>

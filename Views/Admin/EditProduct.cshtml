@@ -1,0 +1,31 @@
+﻿@model CommerceElectronique.Models.Product
+
+<form asp-action="EditProduct" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="ProductId" />
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" />
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description"></textarea>
+    </div>
+    <div>
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "CategoryId", "Name"))"></select>
+    </div>
+    <div>
+        <label>Image</label>
+        <input type="file" name="imageFile" />
+        <img src="@Model.ImageUrl" alt="Current Image" style="max-width: 150px;" />
+    </div>
+    <div>
+        <label asp-for="Stock"></label>
+        <input asp-for="Stock" />
+    </div>
+    <button type="submit">Save</button>
+</form>

@@ -1,0 +1,12 @@
+﻿@model CommerceElectronique.Models.Product
+@{
+    ViewData["Title"] = "Détails du produit";
+}
+
+<h1>@Model.Name</h1>
+
+<img src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;height:300px;" />
+<p><strong>Description:</strong> @Model.Description</p>
+<p><strong>Prix:</strong> @Model.Price €</p>
+<p><strong>Stock:</strong> @Model.Stock</p>
+<p><strong>Catégorie:</strong> @Model.Category.Name</p>

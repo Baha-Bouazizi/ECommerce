@@ -1,0 +1,236 @@
+﻿@model List<CommerceElectronique.Models.CartItem>
+
+@{
+    Layout = "_Layout"; // Assurez-vous que votre mise en page est correctement configurée
+}
+
+<div class="checkout-container">
+    <!-- Titre de la page de checkout -->
+    <div class="checkout-header">
+        <h2>Finaliser votre commande</h2>
+        <p class="subheading">Merci pour votre commande. Veuillez compléter les informations ci-dessous pour finaliser votre achat.</p>
+    </div>
+
+    <!-- Affichage des messages d'erreur ou succès -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Formulaire de commande -->
+    <form method="post" action="/Order/CreateOrder">
+        <!-- Adresse de livraison -->
+        <div class="form-group">
+            <label for="shippingAddress">Adresse de livraison</label>
+            <input type="text" class="input-field" id="shippingAddress" name="shippingAddress" required placeholder="Entrez votre adresse de livraison" />
+        </div>
+
+        <!-- Tableau des produits dans le panier -->
+        <div class="cart-items">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>€@item.Product.Price</td>
+                            <td>@item.Quantity</td>
+                            <td>€@(item.Product.Price * item.Quantity)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total de la commande -->
+        <div class="total-section">
+            <span class="total-label">Montant total : </span>
+            <span class="total-price">€@ViewBag.TotalAmount</span>
+        </div>
+
+        <!-- Formulaire de paiement Stripe -->
+        <div id="stripe-payment-form">
+            <!-- Le formulaire Stripe sera inséré ici -->
+        </div>
+
+        <!-- Bouton pour confirmer la commande -->
+        <button type="submit" class="btn confirm-order-btn">Confirmer ma commande</button>
+    </form>
+</div>
+
+<!-- Script Stripe pour le formulaire de paiement -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('pk_test_51QTNwQLIYZo7aOMmgsdUfWaC4kHVftHz5J9Iu67Ymi9wxgkwDgsl4gq5N3pyQk9FTscsaXgU06amk4b6rD4LKCG800NJAsc6ms');
+    var elements = stripe.elements();
+    var card = elements.create('card');
+    card.mount('#stripe-payment-form');
+
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                alert(result.error.message);
+            } else {
+                var tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = 'stripeToken';
+                tokenInput.value = result.token.id;
+                form.appendChild(tokenInput);
+                form.submit();
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Styles généraux */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .checkout-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .checkout-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .checkout-header .subheading {
+            font-size: 16px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+    /* Champs du formulaire */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+    .input-field {
+        width: 100%;
+        padding: 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        color: #555;
+    }
+
+        .input-field:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+    /* Table des produits */
+    .cart-items {
+        margin-top: 30px;
+    }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+
+        .cart-table th, .cart-table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-table th {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+    /* Section Total */
+    .total-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .total-price {
+        color: #007bff;
+    }
+
+    /* Bouton de confirmation */
+    .confirm-order-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: #007bff;
+        color: white;
+        font-size: 18px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .confirm-order-btn:hover {
+            background-color: #0056b3;
+        }
+
+    /* Alertes */
+    .alert {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+</style>

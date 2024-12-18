@@ -1,0 +1,71 @@
+﻿@model CommerceElectronique.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="container">
+    <h2 class="mt-4 text-center text-primary">Connexion</h2>
+
+    <form method="post" asp-action="Login" asp-controller="Account">
+        <div class="form-group">
+            <label for="Email">Adresse e-mail</label>
+            <input type="email" class="form-control form-control-lg" id="Email" name="Email" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Mot de passe</label>
+            <input type="password" class="form-control form-control-lg" id="Password" name="Password" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Se connecter</button>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger mt-3">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </form>
+
+    <p class="text-center mt-3">
+        <a href="@Url.Action("Register", "Account")" class="text-success">Créer un compte</a>
+    </p>
+</div>
+
+<!-- Inclure le thème Minty de Bootswatch -->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+        .btn-primary:hover {
+            background-color: #4cae4c;
+            border-color: #4cae4c;
+        }
+
+    .alert {
+        margin-top: 1rem;
+    }
+</style>

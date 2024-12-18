@@ -1,0 +1,28 @@
+﻿@model CommerceElectronique.Models.User
+
+@{
+    ViewData["Title"] = "Modifier le Profil";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="FirstName">Prénom</label>
+        <input type="text" id="FirstName" name="FirstName" class="form-control" value="@Model.FirstName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="LastName">Nom</label>
+        <input type="text" id="LastName" name="LastName" class="form-control" value="@Model.LastName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
+</form>
+
+<p><a href="@Url.Action("Profile", "Account")">Retour au profil</a></p>

@@ -1,0 +1,89 @@
+﻿<head>
+    <!-- Utilisation du thème Minty de Bootswatch pour un design cohérent -->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+@model UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Mon Profil";
+}
+
+<!-- Titre de la page -->
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Mon Profil</h2>
+
+    <!-- Lien vers l'historique des commandes -->
+    <div class="text-right mb-3">
+        <a href="@Url.Action("OrderHistory", "Order")" class="btn btn-primary">Voir l'Historique des Commandes</a>
+    </div>
+
+    <!-- Section des informations personnelles -->
+    <div class="profile-info p-4 mb-5 shadow-sm bg-white rounded">
+        <h4 class="mb-4 text-primary">Informations Personnelles</h4>
+
+        <!-- Formulaire de modification -->
+        <form asp-action="Edit" method="post">
+            <div class="form-group">
+                <label for="FirstName">Prénom</label>
+                <input type="text" class="form-control form-control-lg" id="FirstName" name="FirstName" value="@Model.User.FirstName" required />
+            </div>
+
+            <div class="form-group">
+                <label for="LastName">Nom</label>
+                <input type="text" class="form-control form-control-lg" id="LastName" name="LastName" value="@Model.User.LastName" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control form-control-lg" id="Email" name="Email" value="@Model.User.Email" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Mot de passe</label>
+                <input type="password" class="form-control form-control-lg" id="Password" name="Password" placeholder="Laisser vide pour ne pas modifier" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Enregistrer les Modifications</button>
+        </form>
+    </div>
+</div>
+
+<!-- Styles personnalisés -->
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .profile-info {
+        border: 1px solid #ddd;
+        padding: 2rem;
+    }
+
+        .profile-info h4 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-size: 1rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+</style>

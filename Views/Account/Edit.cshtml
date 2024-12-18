@@ -1,0 +1,110 @@
+﻿@model CommerceElectronique.Models.User
+
+@{
+    ViewData["Title"] = "Modifier mon Profil";
+}
+
+<!-- Titre de la page -->
+<h1 class="text-center text-primary my-5">Modifier mon Profil</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg rounded">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4 text-primary">Informations personnelles</h4>
+
+                    <!-- Formulaire de modification -->
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <label for="FirstName" class="form-label">Prénom</label>
+                            <input type="text" class="form-control form-control-lg" id="FirstName" name="FirstName" value="@Model.FirstName" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="LastName" class="form-label">Nom</label>
+                            <input type="text" class="form-control form-control-lg" id="LastName" name="LastName" value="@Model.LastName" required />
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-lg" id="Email" name="Email" value="@Model.Email" readonly />
+                        </div>
+
+                        <!-- Bouton de soumission -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-lg w-50 shadow-sm">Sauvegarder les modifications</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    /* Background Gradient */
+    body {
+        background: linear-gradient(135deg, #00aaff, #a8c8ff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Card Style */
+    .card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-control-lg {
+        font-size: 1.1rem;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .btn {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: background-color 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+    /* Input focus animation */
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .form-label {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+
+    /* Additional margin and padding adjustments */
+    .container {
+        margin-top: 50px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+</style>

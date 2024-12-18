@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CommerceElectronique.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Récapitulatif de la commande";
+}
+
+<h2>Récapitulatif de la commande</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Price €</td>
+                <td>@(item.Product.Price * item.Quantity) €</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Total de la commande: @ViewData["Total"] €</h3>
+
+<!-- Ajouter un bouton pour finaliser la commande, ce bouton dépend de votre logique de commande -->
+<button class="btn btn-success">Confirmer la commande</button>

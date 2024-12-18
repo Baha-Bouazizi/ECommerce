@@ -1,0 +1,187 @@
+﻿@model IEnumerable<CommerceElectronique.Models.Product>
+@{
+    ViewData["Title"] = "Catalogue des Produits";
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/lux/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Pour les icônes -->
+    <style>
+        .cart-button, .profile-button {
+            position: fixed;
+            top: 20px;
+            z-index: 999;
+        }
+
+        .cart-button {
+            right: 80px; /* Espace entre le panier et le profil */
+        }
+
+        .profile-button {
+            right: 20px;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .legend span {
+            font-weight: bold;
+        }
+
+        /* Pour les icônes */
+        .icon-btn {
+            font-size: 24px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .icon-btn:hover {
+                color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <script>
+        setTimeout(() => {
+            const alertElement = document.getElementById('successMessage');
+            if (alertElement) {
+                alertElement.classList.remove('show');
+                alertElement.classList.add('fade');
+                setTimeout(() => alertElement.remove(), 150);
+            }
+        }, 800);
+    </script>
+
+    <h1 class="text-center text-primary">Catalogue des Produits</h1>
+
+    <!-- Panier et Profil en haut à droite avec des icônes -->
+    <div class="cart-button">
+        <a href="@Url.Action("Index", "Cart")" class="icon-btn">
+            <i class="fas fa-shopping-cart"></i> <!-- Icône du panier -->
+        </a>
+    </div>
+
+    <div class="profile-button">
+        <a href="@Url.Action("Profile", "Account")" class="icon-btn">
+            <i class="fas fa-user-circle"></i> <!-- Icône du profil -->
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <!-- Légende pour la popularité -->
+    <div class="legend mb-4 text-center">
+        <strong>Légende :</strong>
+        <ul class="list-inline">
+            <li class="list-inline-item"><span class="text-danger">⬇️ Faible</span> : Popularité < 500</li>
+            <li class="list-inline-item"><span class="text-warning">➡️ Modérée</span> : 500 ≤ Popularité < 1000</li>
+            <li class="list-inline-item"><span class="text-success">⬆️ Élevée</span> : Popularité ≥ 1000</li>
+        </ul>
+    </div>
+
+    <!-- Formulaire de recherche -->
+    <form method="get" class="form-inline justify-content-center mb-4">
+        <input type="text" name="search" value="@ViewBag.Search" class="form-control mr-2" placeholder="Rechercher un produit" />
+        <input type="text" name="category" value="@ViewBag.Category" class="form-control mr-2" placeholder="Catégorie" />
+        <input type="number" name="minPrice" value="@ViewBag.MinPrice" class="form-control mr-2" placeholder="Prix min" />
+        <input type="number" name="maxPrice" value="@ViewBag.MaxPrice" class="form-control mr-2" placeholder="Prix max" />
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+
+    <!-- Affichage des produits -->
+    @foreach (var category in ViewBag.Categories)
+    {
+        <h2 class="mt-4 text-primary">@category.Name</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th>Popularité</th>
+                    <th>Ajouter au Panier</th>
+                    <th>Voir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Where(p => p.Category.Name == category.Name))
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                            }
+                            else
+                            {
+                                <span>Aucune image</span>
+                            }
+                        </td>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td>@product.Price €</td>
+                        <td>@product.Stock</td>
+                        <td>
+                            @if (product.Popularity < 500)
+                            {
+                                <span class="text-danger">⬇️ Faible (@product.Popularity)</span>
+                            }
+                            else if (product.Popularity < 1000)
+                            {
+                                <span class="text-warning">➡️ Modérée (@product.Popularity)</span>
+                            }
+                            else
+                            {
+                                <span class="text-success">⬆️ Élevée (@product.Popularity)</span>
+                            }
+                        </td>
+                        <td>
+                            <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <input type="number" name="quantity" value="1" min="1" max="@product.Stock" class="form-control d-inline w-auto" />
+                                <button type="submit" class="btn btn-success">Ajouter</button>
+                            </form>
+                        </td>
+                        <td><a href="@Url.Action("Details", "Product", new { id = product.ProductId })" class="btn btn-info">Détails</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a href="?page=@(ViewBag.CurrentPage - 1)&search=@ViewBag.Search&category=@ViewBag.Category&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice" class="btn btn-outline-primary mr-2">Précédent</a>
+        }
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a href="?page=@(ViewBag.CurrentPage + 1)&search=@ViewBag.Search&category=@ViewBag.Category&minPrice=@ViewBag.MinPrice&maxPrice=@ViewBag.MaxPrice" class="btn btn-outline-primary">Suivant</a>
+        }
+    </div>
+</body>
+</html>

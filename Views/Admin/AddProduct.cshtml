@@ -1,0 +1,98 @@
+﻿@model CommerceElectronique.Models.Product
+
+@{
+    ViewBag.Title = "Ajouter un Produit";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Ajouter un Produit</h2>
+
+    <form asp-action="AddProduct" method="post" enctype="multipart/form-data" class="shadow p-4 bg-white rounded">
+        <div class="form-group">
+            <label asp-for="Name" class="font-weight-bold">Nom du Produit :</label>
+            <input asp-for="Name" class="form-control form-control-lg" placeholder="Entrez le nom du produit" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="font-weight-bold">Description :</label>
+            <textarea asp-for="Description" class="form-control form-control-lg" rows="4" placeholder="Ajoutez une description"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price" class="font-weight-bold">Prix :</label>
+            <input asp-for="Price" class="form-control form-control-lg" placeholder="Entrez le prix" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Stock" class="font-weight-bold">Quantité en Stock :</label>
+            <input asp-for="Stock" class="form-control form-control-lg" type="number" min="0" placeholder="Entrez la quantité en stock" />
+            <span asp-validation-for="Stock" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ImageUrl" class="font-weight-bold">Image :</label>
+            <input type="file" name="imageFile" class="form-control form-control-lg" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CategoryId" class="font-weight-bold">Catégorie :</label>
+            <select asp-for="CategoryId" class="form-control form-control-lg">
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-lg w-50">Ajouter</button>
+        </div>
+    </form>
+</div>
+
+<!-- Inclure le thème Minty de Bootswatch -->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/minty/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 700px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    form {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group label {
+        font-size: 1.1rem;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .btn-success {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+        .btn-success:hover {
+            background-color: #4cae4c;
+            border-color: #4cae4c;
+        }
+</style>

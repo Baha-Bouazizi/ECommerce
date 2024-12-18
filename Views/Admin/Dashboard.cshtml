@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<!-- Inclure le thème Lux de Bootswatch -->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/lux/bootstrap.min.css" rel="stylesheet">
+
+<div class="dashboard">
+    <h1>Admin Dashboard</h1>
+    <div class="buttons row justify-content-center">
+        <!-- Boutons pour gérer les différentes sections -->
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-info btn-block" href="@Url.Action("Categories", "Admin")">Gérer les Catégories</a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-success btn-block" href="@Url.Action("CreateCategory", "Admin")">Créer une Catégorie</a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-warning btn-block" href="@Url.Action("Products", "Admin")">Gérer les Produits</a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-primary btn-block" href="@Url.Action("AddProduct", "Admin")">Ajouter un Produit</a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-danger btn-block" href="@Url.Action("Orders", "Admin")">Gérer les Commandes</a> <!-- Nouveau bouton pour gérer les commandes -->
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <a class="btn btn-lg btn-secondary btn-block" href="@Url.Action("Users", "Admin")">Gérer les Utilisateurs</a>
+        </div>
+    </div>
+</div>
+
+<!-- Ajout de styles supplémentaires -->
+<style>
+    .dashboard {
+        text-align: center;
+        margin-top: 50px;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 36px;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    /* Style des boutons */
+    .btn-lg {
+        padding: 20px 30px;
+        font-size: 18px;
+        text-decoration: none;
+        color: #fff;
+        border-radius: 10px;
+        border: none;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-block {
+        display: block;
+    }
+
+    /* Styles supplémentaires sur les boutons */
+    .btn:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .col-lg-3, .col-md-4, .col-sm-6 {
+        margin-bottom: 20px;
+    }
+</style>

@@ -1,0 +1,113 @@
+﻿@model CommerceElectronique.Models.OrderViewModel
+
+<!-- Inclure le thème Pulse de Bootswatch -->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/pulse/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5 text-dark">Order Details</h1>
+
+    <div class="card shadow-sm border-primary">
+        <div class="card-body">
+            <p><strong>Order Number:</strong> @Model.OrderNumber</p>
+            <p><strong>User:</strong> @Model.UserName</p>
+            <p><strong>Status:</strong> @Model.Status</p>
+            <p><strong>Order Date:</strong> @Model.OrderDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Total Amount:</strong> @Model.TotalAmount.ToString("C")</p>
+        </div>
+    </div>
+
+    <h2 class="mt-4 text-dark">Cart Items</h2>
+
+    <table class="table table-hover table-bordered mt-3">
+        <thead class="thead-light">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@(item.Quantity * item.Price) €</td>  <!-- Total pour chaque produit -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Styles supplémentaires -->
+<style>
+    h1, h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    p {
+        font-size: 1.1rem;
+        color: #495057;
+    }
+
+    .card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        color: #343a40;
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .table {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+    }
+
+        .table th, .table td {
+            vertical-align: middle;
+            font-size: 1.1rem;
+        }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    /* Boutons et interactions */
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* Espacement et responsive */
+    .container {
+        padding: 50px;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+</style>

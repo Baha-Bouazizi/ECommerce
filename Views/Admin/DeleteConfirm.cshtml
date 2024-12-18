@@ -1,0 +1,15 @@
+﻿@model CommerceElectronique.Models.Product
+
+@{
+    ViewData["Title"] = "Supprimer le produit";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Êtes-vous sûr de vouloir supprimer le produit "@Model.Name" ?</p>
+
+<form asp-action="DeleteProduct" method="post">
+    <input type="hidden" asp-for="ProductId" />
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+    <a href="@Url.Action("Products", "Admin")" class="btn btn-secondary">Annuler</a>
+</form>

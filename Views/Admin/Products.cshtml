@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CommerceElectronique.Models.Product>
+
+@{
+    ViewData["Title"] = "Produits par Catégorie";
+
+    // Group products by category
+    var groupedProducts = Model.GroupBy(p => p.Category.Name);
+}
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">Produits par Catégorie</h1>
+
+    @foreach (var group in groupedProducts)
+    {
+        <div class="category-section mb-5">
+            <h2 class="category-title text-secondary">@group.Key</h2>
+            <div class="row">
+                @foreach (var product in group)
+                {
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="card product-card">
+                            <img src="@(!string.IsNullOrEmpty(product.ImageUrl) ? Url.Content(product.ImageUrl) : "/images/default.png")"
+                                 class="card-img-top product-image"
+                                 alt="@product.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text text-muted">@product.Description</p>
+                                <p class="card-text text-success font-weight-bold">@product.Price.ToString("C")</p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.Action("EditProduct", "Admin", new { id = product.ProductId })"
+                                       class="btn btn-warning btn-sm">Modifier</a>
+                                    <a href="@Url.Action("DetailsProduct", "Admin", new { id = product.ProductId })"
+                                       class="btn btn-info btn-sm">Détails</a>
+                                    <form asp-action="DeleteProductConfirmed" asp-controller="Admin" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');" style="display:inline;">
+                                        <input type="hidden" name="id" value="@product.ProductId" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

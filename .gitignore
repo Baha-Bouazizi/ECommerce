@@ -1,0 +1,8 @@
+﻿# Fichiers et dossiers générés par Visual Studio
+.vs/
+*.user
+*.suo
+*.vcxproj.*
+*.log
+bin/
+obj/
