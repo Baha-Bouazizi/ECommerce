@@ -143,7 +143,16 @@
                         <td>@product.Name</td>
                         <td>@product.Description</td>
                         <td>@product.Price €</td>
-                        <td>@product.Stock</td>
+                        <td>
+                            @if (product.Stock > 0)
+                            {
+                                <span class="badge badge-success">En stock</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Rupture de stock</span>
+                            }
+                        </td>
                         <td>
                             @if (product.Popularity < 500)
                             {
@@ -159,11 +168,18 @@
                             }
                         </td>
                         <td>
-                            <form action="@Url.Action("AddToCart", "Cart")" method="post">
-                                <input type="hidden" name="productId" value="@product.ProductId" />
-                                <input type="number" name="quantity" value="1" min="1" max="@product.Stock" class="form-control d-inline w-auto" />
-                                <button type="submit" class="btn btn-success">Ajouter</button>
-                            </form>
+                            @if (product.Stock > 0)
+                            {
+                                <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                    <input type="number" name="quantity" value="1" min="1" max="@product.Stock" class="form-control d-inline w-auto" />
+                                    <button type="submit" class="btn btn-success">Ajouter</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" disabled>Ajouter</button>
+                            }
                         </td>
                         <td><a href="@Url.Action("Details", "Product", new { id = product.ProductId })" class="btn btn-info">Détails</a></td>
                     </tr>
